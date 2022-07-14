@@ -1,7 +1,9 @@
 package main.com.ljg.leetcode;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class LC3 {
     public int lengthOfLongestSubstring(String s) {
@@ -22,4 +24,27 @@ public class LC3 {
         return max;
     }
 
+    /**
+     * 滑动窗口法
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring2(String s) {
+        if (s.length() == 0) {
+            return 0;
+        }
+        Set<Character> set = new HashSet<>();
+        int right = -1, max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (i != 0) {
+                set.remove(s.charAt(i - 1));
+            }
+            while ((right + 1) < s.length() && !set.contains(s.charAt(right + 1))) {
+                set.add(s.charAt(right + 1));
+                right++;
+            }
+            max = Math.max(max, (right - i + 1));
+        }
+        return max;
+    }
 }
