@@ -1,5 +1,8 @@
 package main.com.ljg.leetcode;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 public class LC42 {
     /**
      * 从左扫描一遍，从右扫描一遍，再计算左右差值
@@ -50,5 +53,33 @@ public class LC42 {
         return sum;
     }
 
+    /**
+     * 以为这个方法会更快，结果更慢了
+     * 思路是用栈保存前面的高度，比栈顶低则入栈，比栈顶高则出栈
+     * @param height
+     * @return
+     */
+    public int trap3(int[] height) {
+        int len = height.length;
+        Deque<Integer> stack = new LinkedList<>();
+        int i = 0, sum = 0;
+        while (i < len) {
+            while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
+                // pop stack
+                int h = height[stack.pop()];
+                if (stack.isEmpty()) {
+                    break;
+                }
+                // 假如说有几个同水平面的箱子，只算上一个不会重复计算吗?
+                int distance = i - stack.peek() - 1;
+                // 不会，因为在这里用的是stack.peek()，如果同一水平面在下一行相减为0
+                int min = Math.min(height[stack.peek()], height[i]);
+                sum += distance * (min - h);
+            }
+            stack.push(i);
+            i++;
+        }
+        return sum;
+    }
 
 }
