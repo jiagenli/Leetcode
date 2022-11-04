@@ -4,6 +4,7 @@ public class LC152 {
     public int maxProduct(int[] nums) {
         int maxRes = nums[0], minRes = nums[0], ans = nums[0];
         for (int i = 1; i < nums.length; i++) {
+            // 这里的处理要注意
             int mx = maxRes, mn = minRes;
             maxRes = Math.max(mx * nums[i], Math.max(mn * nums[i], nums[i]));
             minRes = Math.min(mn * nums[i], Math.min(mx * nums[i], nums[i]));
