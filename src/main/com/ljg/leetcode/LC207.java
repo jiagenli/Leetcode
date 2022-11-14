@@ -46,4 +46,46 @@ public class LC207 {
 
         return numCourses == 0;
     }
+
+    /**
+     * 深度优先遍历
+     * @param numCourses
+     * @param prerequisites
+     * @return
+     */
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adjcency = new ArrayList<>();
+        for (int i = 0;i < numCourses; i++) {
+            adjcency.add(new ArrayList());
+        }
+        for (int[] pre : prerequisites) {
+            adjcency.get(pre[1]).add(pre[0]);
+        }
+        // 0未被访问 -1在其他源点的dfs中被访问 1已被自己源点出发的dfs访问
+        int[] flags = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            if (!dfs(i, flags, adjcency)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs(int cur, int[] flags, List<List<Integer>> adjcency) {
+        // 在本轮dfs中被访问过，说明有环
+        if (flags[cur] == 1) {
+            return false;
+        }
+        if (flags[cur] == -1) {
+            return true;
+        }
+        flags[cur] = 1;
+        for (int adj : adjcency.get(cur)) {
+            if (!dfs(adj, flags, adjcency)) {
+                return false;
+            }
+        }
+        flags[cur] = -1;
+        return true;
+    }
 }
