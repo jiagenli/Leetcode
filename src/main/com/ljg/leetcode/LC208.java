@@ -30,8 +30,8 @@ public class LC208 {
             while (i < word.length()) {
                 char c = word.charAt(i);
                 int index = c - 'a';
-                if (t.tChilds[index] == null || (i == word.length() - 1 && t.tChilds[index].isEnd == false)) {
-                    System.out.println(c);
+                if (t.tChilds[index] == null || (i == word.length() - 1 && !t.tChilds[index].isEnd)) {
+                    //System.out.println(c);
                     return false;
                 }
                 t = t.tChilds[index];
